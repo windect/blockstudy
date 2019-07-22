@@ -44,12 +44,27 @@
                     "type": "asset"
                 }
             ]
+        },
+        {
+            "name": "gettokeninfo",
+            "base": "",
+            "fields": [
+                {
+                    "name": "token",
+                    "type": "asset"
+                }
+            ]
         }
     ],
     "actions": [
         {
             "name": "getbalance",
             "type": "getbalance",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "gettokeninfo",
+            "type": "gettokeninfo",
             "ricardian_contract": ""
         }
     ],
