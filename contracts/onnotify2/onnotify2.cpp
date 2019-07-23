@@ -81,7 +81,7 @@ ACTION dummy() {}
 void ontransfer(name from, name to, asset quantity, std::string memo) {
 if(from == get_self()) {
 Receiver receiver(get_self(), get_self().value);
-auto itr = receiver.find(to.value);
+auto itr = receiver.find(to.value); //find를 사용하여 같은 값이 없으면 마지막 포인트를 항한다.
 if(itr == receiver.end()) {
 receiver.emplace(from, [&](auto& row) {
 row.user = to;

@@ -46,6 +46,20 @@
             ]
         },
         {
+            "name": "notify",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "msg",
+                    "type": "string"
+                }
+            ]
+        },
+        {
             "name": "person",
             "base": "",
             "fields": [
@@ -104,6 +118,11 @@
         {
             "name": "insert",
             "type": "insert",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "notify",
+            "type": "notify",
             "ricardian_contract": ""
         },
         {

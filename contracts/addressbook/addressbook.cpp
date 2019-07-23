@@ -32,6 +32,7 @@ CONTRACT addressbook: public contract{
                 row.last_name=last_name;
                 row.age = age;
             });
+            send_summary(user, " successfully emplaced record to addressbook");
             }
             else{
                 forUpsert.modify(itr,user,[&](auto& row){
@@ -40,6 +41,7 @@ CONTRACT addressbook: public contract{
                     row.last_name=last_name;
                     row.age = age;
                 });
+                send_summary(user, " successfully modified record to addressbook");
             }
             print("upsert success");
 
@@ -57,6 +59,7 @@ CONTRACT addressbook: public contract{
                 row.last_name = last_name;
                 row.age = age;
             }); 
+            send_summary(user, " successfully emplaced record to addressbook");
             print("insert success");
         }
         ACTION erase(name user) {
@@ -66,8 +69,15 @@ CONTRACT addressbook: public contract{
             auto itr = forErase.require_find(user.value,"no account"); //auto => 뒤에 자료형에 맞취서 선언해주는 명령어 / 정보를 찾는 역활
             forErase.erase(itr);
             print("erase success");
+            send_summary(user, " successfully erase success record to addressbook");
         }
             
+        [[eosio::action]]
+        void notify(name user, std::string msg) {
+        require_auth(get_self());
+        require_recipient(user);
+        }
+        
     private:
         struct[[eosio::table]] person{ //한사람이 갖는 정보 
             name user;
@@ -79,6 +89,14 @@ CONTRACT addressbook: public contract{
             uint64_t by_age() const {return age;}
         };
 
+        void send_summary(name user, std::string message) {
+            action(
+            permission_level{get_self(),"active"_n},
+            get_self(),
+            "notify"_n,
+            std::make_tuple(user, name{user}.to_string() + message)
+            ).send();
+        };
         typedef multi_index < "peopletwo"_n, person, indexed_by <"byage"_n, const_mem_fun < person,uint64_t, &person::by_age>> > address_index; // 내가 만든 table 주소명
     
 };
