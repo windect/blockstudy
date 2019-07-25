@@ -10,7 +10,7 @@ CONTRACT tradingbook: public contract {
     ACTION dummy() {}
 
     [[eosio::on_notify("eosio.token::transfer")]]
-    void ontransfer(name from, name to, asset quantity, std::string memo) {
+    void ontransfer(name from, name to, asset quantity, std::string memo) { //receive 와 sender랑 바껴있다.
         if(from == get_self()) {
         Receive forReceiver(get_self(), to.value);
         forReceiver.emplace(get_self(), [&](auto& row) {
